@@ -42,6 +42,7 @@ export async function authMiddleware(
     return null // Continue processing
 
   } catch (error) {
+    console.error("JWT validation error:", error);
     return new Response(
       JSON.stringify({ error: 'Invalid token' }),
       { status: 401, headers: { 'Content-Type': 'application/json' } }

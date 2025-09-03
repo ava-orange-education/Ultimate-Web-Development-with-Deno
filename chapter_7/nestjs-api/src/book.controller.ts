@@ -1,13 +1,6 @@
 import { Controller, Get, UseGuards, Injectable } from "npm:@nestjs/common";
 import { BookService } from "./book.service.ts";
-
-// Placeholder for Book model
-interface Book {
-    id: string;
-    title: string;
-    author: string;
-    isbn: string;
-}
+import { Book } from "./book.types.ts";
 
 // Placeholder for AuthGuard
 @Injectable()
@@ -25,6 +18,6 @@ export class BookController {
   @Get()
   @UseGuards(AuthGuard)
   async findAll(): Promise<Book[]> {
-    return this.bookService.findAll()
+    return this.bookService.findAll();
   }
 }

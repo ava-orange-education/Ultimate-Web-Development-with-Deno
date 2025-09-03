@@ -1,16 +1,9 @@
 import { Injectable } from "npm:@nestjs/common";
-
-// Placeholder for Book model
-interface Book {
-    id: string;
-    title: string;
-    author: string;
-    isbn: string;
-}
+import { Book } from "./book.types.ts";
 
 // Placeholder for BookRepository
 @Injectable()
-class BookRepository {
+export class BookRepository {
     findAll(): Promise<Book[]> {
         console.log('Fetching all books from repository...');
         return Promise.resolve([]);
@@ -22,6 +15,6 @@ export class BookService {
   constructor(private readonly bookRepository: BookRepository) {}
 
   async findAll(): Promise<Book[]> {
-    return this.bookRepository.findAll()
+    return this.bookRepository.findAll();
   }
 }
