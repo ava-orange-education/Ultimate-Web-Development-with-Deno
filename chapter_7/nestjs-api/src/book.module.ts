@@ -1,9 +1,7 @@
 import { Module } from "npm:@nestjs/common";
 import { BookController } from "./book.controller.ts";
 import { BookService } from "./book.service.ts";
-
-// Placeholder for Book entity
-class Book {}
+import { Book } from "./book.entity.ts";
 
 // Placeholder for TypeOrmModule
 // This is a mock to satisfy the NestJS module system's typings.

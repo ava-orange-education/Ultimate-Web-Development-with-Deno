@@ -2,7 +2,10 @@ const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 
 export function rateLimitMiddleware(limit: number, windowMs: number) {
   return (req: Request): Response | null => {
-    const clientIp = req.headers.get('x-forwarded-for') || 'unknown'
+    // WARNING: Using 'x-forwarded-for' is insecure unless you validate the proxy chain and trust the proxy.
+    // Deno.ServeHandlerInfo contains the remote address, but we don't have it here.
+    // A more robust solution would involve passing the remoteAddr to the middleware.
+    const clientIp = req.headers.get('x-forwarded-for') || 'unknown';
     const now = Date.now()
     const windowStart = now - windowMs
 

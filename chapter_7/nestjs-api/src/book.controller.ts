@@ -1,13 +1,6 @@
 import { Controller, Get, UseGuards, Injectable } from "npm:@nestjs/common";
 import { BookService } from "./book.service.ts";
-
-// Placeholder for Book model
-interface Book {
-    id: string;
-    title: string;
-    author: string;
-    isbn: string;
-}
+import { Book } from "./book.types.ts";
 
 // Placeholder for AuthGuard
 @Injectable()
