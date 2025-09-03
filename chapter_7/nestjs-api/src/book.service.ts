@@ -22,6 +22,6 @@ export class BookService {
   constructor(private readonly bookRepository: BookRepository) {}
 
   async findAll(): Promise<Book[]> {
-    return this.bookRepository.findAll()
+    return this.bookRepository.findAll();
   }
 }

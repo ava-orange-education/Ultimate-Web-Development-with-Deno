@@ -3,7 +3,7 @@ import { z } from 'npm:zod@^3.22.0'
 const CreateBookSchema = z.object({
   title: z.string().min(1).max(255),
   author: z.string().min(1).max(255),
-  isbn: z.string().regex(/^978-\d{10}$/, 'ISBN must follow the format 978-XXXXXXXXXX'),
+  isbn: z.string().regex(/^978\d{10}$/, 'ISBN must be a 13-digit number starting with 978'),
   publishYear: z.number().int().min(1000).max(new Date().getFullYear()),
   pages: z.number().int().positive().optional()
 })

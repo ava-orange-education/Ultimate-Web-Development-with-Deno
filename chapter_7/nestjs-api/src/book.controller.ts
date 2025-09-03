@@ -25,6 +25,6 @@ export class BookController {
   @Get()
   @UseGuards(AuthGuard)
   async findAll(): Promise<Book[]> {
-    return this.bookService.findAll()
+    return this.bookService.findAll();
   }
 }
