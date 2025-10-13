@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "socket.io": "npm:socket.io@^4.7.5",
+    "@socket.io/admin-ui": "npm:@socket.io/admin-ui@^0.5.1"
+  },
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read --allow-env --allow-sys --watch src/main.ts",
+    "start": "deno run --allow-net src/main.ts",
+    "test": "deno test"
+  },
+  "compilerOptions": {
+    "lib": ["deno.ns", "dom"]
+  },
+  "nodeModulesDir": "auto"
+}
