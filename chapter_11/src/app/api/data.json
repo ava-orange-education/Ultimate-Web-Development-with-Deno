@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Brachiosaurus",
+    "description": "A large, long-necked herbivorous dinosaur that lived during the Late Jurassic period.",
+    "era": "Late Jurassic",
+    "diet": "herbivore"
+  },
+  {
+    "name": "Tyrannosaurus Rex",
+    "description": "One of the most famous carnivorous dinosaurs, known for its large head and powerful jaws.",
+    "era": "Late Cretaceous",
+    "diet": "carnivore"
+  },
+  {
+    "name": "Triceratops",
+    "description": "A herbivorous dinosaur recognizable by its three horns and large bony frill.",
+    "era": "Late Cretaceous",
+    "diet": "herbivore"
+  },
+  {
+    "name": "Velociraptor",
+    "description": "A small but fast and intelligent carnivorous dinosaur, popularized by movies.",
+    "era": "Late Cretaceous",
+    "diet": "carnivore"
+  }
+]
+

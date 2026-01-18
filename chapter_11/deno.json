@@ -1,0 +1,14 @@
+{
+  "unstable": [
+    "bare-node-builtins",
+    "detect-cjs",
+    "node-globals",
+    "unsafe-proto",
+    "sloppy-imports"
+  ],
+  "allowScripts": {
+    "allow": [],
+    "deny": ["npm:sharp@0.34.3", "npm:unrs-resolver@1.11.1"]
+  }
+}
+
