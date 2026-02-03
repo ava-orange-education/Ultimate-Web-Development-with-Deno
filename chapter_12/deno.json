@@ -1,0 +1,21 @@
+{
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "db:generate": "deno run -A npm:drizzle-kit generate",
+    "db:migrate": "deno run -A npm:drizzle-kit migrate"
+  },
+  "imports": {
+    "@db/sqlite": "jsr:@db/sqlite@^0.11.0",
+    "pg": "npm:pg@^8.11.3",
+    "mysql2": "npm:mysql2@^3.9.0",
+    "mongoose": "npm:mongoose@^8.1.1",
+    "drizzle-orm": "npm:drizzle-orm@^0.29.3",
+    "drizzle-kit": "npm:drizzle-kit@^0.20.13",
+    "testcontainers": "npm:testcontainers@^10.7.1",
+    "@std/dotenv": "jsr:@std/dotenv@^0.217.0",
+    "@std/assert": "jsr:@std/assert@^0.217.0"
+  },
+  "compilerOptions": {
+    "strict": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "tasks": {
+    "start": "deno run -A --watch=static/,routes/ main.ts"
+  },
+  "imports": {
+    "@fresh/core": "jsr:@fresh/core@^2.1.4",
+    "preact": "npm:preact@^10.24.3",
+    "preact-render-to-string": "npm:preact-render-to-string@^6.5.11"
+  }
+}

@@ -1,7 +1,7 @@
 import type { Dino } from "./types";
 
 async function fetchDinosaurs(): Promise<Dino[]> {
-  const response = await fetch("http://localhost:4000/api/dinosaurs", {
+  const response = await fetch("http://localhost:3000/api/dinosaurs", {
     // Next.js will automatically treat this as a server-side request
     // when executed in a Server Component.
     cache: "no-store",

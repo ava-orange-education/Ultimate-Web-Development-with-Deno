@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "start": "OTEL_DENO=true OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318 OTEL_SERVICE_NAME=deno-observability-demo deno run -A main.ts"
+  },
+  "imports": {
+    "@opentelemetry/api": "npm:@opentelemetry/api@^1.9.0"
+  }
+}
