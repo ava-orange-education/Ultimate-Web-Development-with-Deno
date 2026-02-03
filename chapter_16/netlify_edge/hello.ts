@@ -9,7 +9,9 @@ export default async (request: Request, context: Context) => {
   const loyaltyStatus = cookies.get("loyalty_status");
 
   // Log the request location (provided by Netlify)
-  console.log(`Request from: ${context.geo.city}, ${context.geo.country.name}`);
+  if (context.geo) {
+    console.log(`Request from: ${context.geo.city}, ${context.geo.country?.name}`);
+  }
 
   if (loyaltyStatus === "gold") {
     // Rewrite the path to a special page for gold members

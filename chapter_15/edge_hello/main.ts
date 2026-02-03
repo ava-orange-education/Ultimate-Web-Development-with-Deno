@@ -17,6 +17,7 @@ Deno.serve((req: Request) => {
     status: 200,
     headers: {
       "content-type": "text/plain",
+      "x-served-by": region,
     },
   });
 });
