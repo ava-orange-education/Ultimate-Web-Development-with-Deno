@@ -14,8 +14,8 @@ Deno.serve(async (req: Request) => {
 
   return new Response(
     JSON.stringify(data),
-    { 
-      headers: { "Content-Type": "application/json" } 
+    {
+      headers: { "Content-Type": "application/json" },
     },
   );
 });

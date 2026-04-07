@@ -3,10 +3,10 @@ const kv = await Deno.openKv();
 // Listener for queue processing
 kv.listenQueue(async (msg) => {
   console.log("Worker received message:", msg);
-  
+
   // Simulate processing
-  await new Promise(r => setTimeout(r, 1000));
-  
+  await new Promise((r) => setTimeout(r, 1000));
+
   console.log("Worker finished processing:", msg);
 });
 

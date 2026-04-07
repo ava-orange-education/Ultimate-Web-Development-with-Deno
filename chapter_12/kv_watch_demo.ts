@@ -1,49 +1,48 @@
-// Run with: deno run --allow-net --allow-read --unstable-kv kv_watch_demo.ts
+// Run with: deno run --allow-net --allow-read --allow-write kv_watch_demo.ts
 
 const kv = await Deno.openKv();
 
 // Route handler
 async function handler(req: Request): Promise<Response> {
-    const url = new URL(req.url);
+  const url = new URL(req.url);
 
-    if (url.pathname === "/events") {
-        const stream = kv.watch([["stats", "visitors"]]);
-        
-        const body = new ReadableStream({
-            async start(controller) {
-                console.log("Client connected to stream");
-                try {
-                    for await (const [entry] of stream) {
-                        const data = JSON.stringify({ visitors: entry.value });
-                        controller.enqueue(new TextEncoder().encode(`data: ${data}\n\n`));
-                    }
-                } catch (e) {
-                    console.log("Stream closed");
-                }
-            },
-            cancel() {
-                console.log("Client disconnected");
-            }
-        });
+  if (url.pathname === "/events") {
+    const stream = kv.watch([["stats", "visitors"]]);
 
-        return new Response(body, {
-            headers: {
-                "Content-Type": "text/event-stream",
-                "Cache-Control": "no-cache",
-                "Connection": "keep-alive",
-            },
-        });
-    }
+    const body = new ReadableStream({
+      async start(controller) {
+        console.log("Client connected to stream");
+        try {
+          for await (const [entry] of stream) {
+            const data = JSON.stringify({ visitors: entry.value });
+            controller.enqueue(new TextEncoder().encode(`data: ${data}\n\n`));
+          }
+        } catch (_e) {
+          console.log("Stream closed");
+        }
+      },
+      cancel() {
+        console.log("Client disconnected");
+      },
+    });
 
-    if (url.pathname === "/visit" && req.method === "POST") {
-        const key = ["stats", "visitors"];
-        await kv.atomic()
-            .mutate({ type: "sum", key, value: new Deno.KvU64(1n) })
-            .commit();
-        return new Response("Visitor counted");
-    }
+    return new Response(body, {
+      headers: {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive",
+      },
+    });
+  }
 
-    return new Response(`
+  if (url.pathname === "/visit" && req.method === "POST") {
+    const key = ["stats", "visitors"];
+    await kv.atomic().sum(key, 1n).commit();
+    return new Response("Visitor counted");
+  }
+
+  return new Response(
+    `
         <html>
         <body>
             <h1>Live Visitors: <span id="count">0</span></h1>
@@ -57,7 +56,9 @@ async function handler(req: Request): Promise<Response> {
             </script>
         </body>
         </html>
-    `, { headers: { "Content-Type": "text/html" } });
+    `,
+    { headers: { "Content-Type": "text/html" } },
+  );
 }
 
 console.log("Server running on http://localhost:8000");

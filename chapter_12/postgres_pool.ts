@@ -3,7 +3,8 @@ import "@std/dotenv/load";
 
 // Ensure DATABASE_URL is set in .env
 // Example: postgres://postgres:postgres@localhost:5432/app_db
-const connectionString = Deno.env.get("DATABASE_URL") || "postgres://postgres:postgres@localhost:5432/app_db";
+const connectionString = Deno.env.get("DATABASE_URL") ||
+  "postgres://postgres:postgres@localhost:5432/app_db";
 
 const pool = new pg.Pool({
   connectionString,
@@ -26,10 +27,15 @@ async function getUsers() {
     // Insert a dummy user if empty
     const countRes = await client.query("SELECT count(*) FROM users");
     if (parseInt(countRes.rows[0].count) === 0) {
-        await client.query("INSERT INTO users (name, active) VALUES ($1, $2)", ["Postgres User", true]);
+      await client.query("INSERT INTO users (name, active) VALUES ($1, $2)", [
+        "Postgres User",
+        true,
+      ]);
     }
 
-    const res = await client.query("SELECT * FROM users WHERE active = $1", [true]);
+    const res = await client.query("SELECT * FROM users WHERE active = $1", [
+      true,
+    ]);
     return res.rows;
   } finally {
     // Release client back to the pool
@@ -38,25 +44,31 @@ async function getUsers() {
 }
 
 // Transaction example
-async function transferFunds(senderId: number, receiverId: number, amount: number) {
-    const client = await pool.connect();
-    try {
-        await client.query('BEGIN');
-        
-        // This is just a simulation, assuming table accounts exists
-        // const { rows: sender } = await client.query('SELECT balance FROM accounts WHERE id = $1 FOR UPDATE', [senderId]);
-        // ... logic ...
-        // await client.query('UPDATE accounts ...');
-        
-        console.log(`Simulating transfer of ${amount} from ${senderId} to ${receiverId}`);
-        
-        await client.query('COMMIT');
-    } catch (e) {
-        await client.query('ROLLBACK');
-        throw e;
-    } finally {
-        client.release();
-    }
+async function transferFunds(
+  senderId: number,
+  receiverId: number,
+  amount: number,
+) {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    // This is just a simulation, assuming table accounts exists
+    // const { rows: sender } = await client.query('SELECT balance FROM accounts WHERE id = $1 FOR UPDATE', [senderId]);
+    // ... logic ...
+    // await client.query('UPDATE accounts ...');
+
+    console.log(
+      `Simulating transfer of ${amount} from ${senderId} to ${receiverId}`,
+    );
+
+    await client.query("COMMIT");
+  } catch (e) {
+    await client.query("ROLLBACK");
+    throw e;
+  } finally {
+    client.release();
+  }
 }
 
 try {

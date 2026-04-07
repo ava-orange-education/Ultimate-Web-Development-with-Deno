@@ -19,7 +19,9 @@ try {
   insert.run("Deno User", "user@deno.land");
 } catch (e) {
   // Ignore unique constraint errors for multiple runs
-  if (!(e instanceof Error) || !e.message.includes("UNIQUE constraint failed")) {
+  if (
+    !(e instanceof Error) || !e.message.includes("UNIQUE constraint failed")
+  ) {
     throw e;
   }
 }

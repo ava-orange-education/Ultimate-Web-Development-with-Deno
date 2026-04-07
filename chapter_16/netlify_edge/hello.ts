@@ -1,7 +1,7 @@
 // Netlify Edge Function
 // Handles requests at the edge, modifying responses or headers
 
-import type { Context, Config } from "https://edge.netlify.com";
+import type { Config, Context } from "netlify-edge";
 
 export default async (request: Request, context: Context) => {
   // Check for a specific cookie
@@ -10,7 +10,9 @@ export default async (request: Request, context: Context) => {
 
   // Log the request location (provided by Netlify)
   if (context.geo) {
-    console.log(`Request from: ${context.geo.city}, ${context.geo.country?.name}`);
+    console.log(
+      `Request from: ${context.geo.city}, ${context.geo.country?.name}`,
+    );
   }
 
   if (loyaltyStatus === "gold") {
@@ -20,7 +22,7 @@ export default async (request: Request, context: Context) => {
 
   // Continue to the next handler or origin
   const response = await context.next();
-  
+
   // Modify the response header
   response.headers.set("X-Powered-By", "Deno on Netlify Edge");
 

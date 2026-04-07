@@ -1,4 +1,4 @@
-Deno.serve({ port: 3000 }, async (req: Request) => {
+Deno.serve({ port: 3000 }, (req: Request) => {
   const url = new URL(req.url);
 
   if (req.method === "GET" && url.pathname === "/") {
