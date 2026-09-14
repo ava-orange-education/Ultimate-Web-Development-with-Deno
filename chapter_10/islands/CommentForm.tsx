@@ -1,11 +1,18 @@
 import { useSignal } from "@preact/signals";
 import Button from "../components/Button.tsx";
 
-export default function CommentForm() {
+interface CommentFormProps {
+  postId: string;
+}
+
+export default function CommentForm(props: CommentFormProps) {
+  const { postId } = props;
   const name = useSignal("");
   const comment = useSignal("");
   const isSubmitting = useSignal(false);
-  const submittedComments = useSignal<Array<{ name: string, comment: string, timestamp: string }>>([]);
+  const submittedComments = useSignal<
+    Array<{ name: string; comment: string; timestamp: string }>
+  >([]);
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
@@ -17,26 +24,37 @@ export default function CommentForm() {
 
     isSubmitting.value = true;
 
-    // Simulate network delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const response = await fetch("/api/comments", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          postId,
+          name: name.value,
+          comment: comment.value,
+        }),
+      });
 
-    // Add comment to list
-    submittedComments.value = [
-      ...submittedComments.value,
-      {
-        name: name.value,
-        comment: comment.value,
-        timestamp: new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit',
-          minute: '2-digit'
-        })
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
       }
-    ];
 
-    // Clear form
-    name.value = "";
-    comment.value = "";
-    isSubmitting.value = false;
+      const saved = await response.json() as {
+        name: string;
+        comment: string;
+        timestamp: string;
+      };
+      submittedComments.value = [...submittedComments.value, saved];
+
+      // Clear form
+      name.value = "";
+      comment.value = "";
+    } catch (error) {
+      console.error("Failed to submit comment", error);
+      alert("Could not submit your comment. Please try again.");
+    } finally {
+      isSubmitting.value = false;
+    }
   };
 
   return (
@@ -45,7 +63,10 @@ export default function CommentForm() {
 
       <form onSubmit={handleSubmit} class="space-y-4">
         <div>
-          <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            for="name"
+            class="block text-sm font-medium text-gray-700 mb-1"
+          >
             Name *
           </label>
           <input
@@ -60,7 +81,10 @@ export default function CommentForm() {
         </div>
 
         <div>
-          <label for="comment" class="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            for="comment"
+            class="block text-sm font-medium text-gray-700 mb-1"
+          >
             Comment *
           </label>
           <textarea
@@ -88,13 +112,20 @@ export default function CommentForm() {
 
       {submittedComments.value.length > 0 && (
         <div class="mt-8">
-          <h4 class="text-lg font-medium text-gray-900 mb-4">Comments ({submittedComments.value.length})</h4>
+          <h4 class="text-lg font-medium text-gray-900 mb-4">
+            Comments ({submittedComments.value.length})
+          </h4>
           <div class="space-y-4">
             {submittedComments.value.map((comment, index) => (
               <div key={index} class="border border-gray-200 rounded-lg p-4">
                 <div class="flex justify-between items-start mb-2">
                   <span class="font-medium text-gray-900">{comment.name}</span>
-                  <span class="text-sm text-gray-500">{comment.timestamp}</span>
+                  <span class="text-sm text-gray-500">
+                    {new Date(comment.timestamp).toLocaleTimeString("en-US", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </span>
                 </div>
                 <p class="text-gray-700">{comment.comment}</p>
               </div>

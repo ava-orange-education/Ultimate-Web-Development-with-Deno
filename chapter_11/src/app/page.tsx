@@ -1,4 +1,6 @@
 import type { Dino } from "./types";
+import { DinosaursFilter } from "./components/DinosaursFilter";
+import { DeleteDinosaurButton } from "./components/DeleteDinosaurButton";
 
 async function fetchDinosaurs(): Promise<Dino[]> {
   const response = await fetch("http://localhost:3000/api/dinosaurs", {
@@ -32,6 +34,8 @@ export default async function HomePage() {
         </p>
       </header>
 
+      <DinosaursFilter />
+
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {dinosaurs.map((dino) => (
           <article
@@ -54,13 +58,14 @@ export default async function HomePage() {
               </div>
             </dl>
 
-            <div className="mt-4">
+            <div className="mt-4 flex items-center justify-between">
               <a
                 href={`/dinosaurs/${encodeURIComponent(dino.name)}`}
                 className="text-xs font-medium text-emerald-300 hover:text-emerald-200 underline underline-offset-2"
               >
                 View details
               </a>
+              <DeleteDinosaurButton name={dino.name} />
             </div>
           </article>
         ))}

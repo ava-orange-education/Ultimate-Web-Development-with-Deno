@@ -6,7 +6,7 @@ export default define.page(function App({ Component }) {
       <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>fresh-projectchap_10</title>
+        <title>Fresh Blog</title>
       </head>
       <body>
         <Component />
