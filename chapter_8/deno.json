@@ -1,0 +1,15 @@
+{
+  "imports": {
+    "@apollo/server": "npm:@apollo/server@^4.10.2",
+    "graphql": "npm:graphql@^16.8.1"
+  },
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read --watch src/main.ts",
+    "test": "deno test"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react"
+  },
+  "nodeModulesDir": "auto"
+}

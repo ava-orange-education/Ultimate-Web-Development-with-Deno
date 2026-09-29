@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  lgtm:
+    image: grafana/otel-lgtm:0.8.1
+    container_name: lgtm
+    ports:
+      - "3000:3000"   # Grafana
+      - "4317:4317"   # OTLP gRPC
+      - "4318:4318"   # OTLP HTTP
+    environment:
+      - GF_PATHS_DATA=/data/grafana
+    volumes:
+      - lgtm_data:/data
+
+volumes:
+  lgtm_data:
